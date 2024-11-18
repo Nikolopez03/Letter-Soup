@@ -1,6 +1,4 @@
-"""
 import json
-
 # Función para buscar una palabra en la sopa de letras
 def find_word(letter_soup, word):
     word = word.lower()  # Convertir la palabra a minúsculas para hacer la búsqueda insensible a mayúsculas
@@ -81,68 +79,3 @@ print("Palabras a buscar:", words)
 file_path = 'archivo.txt'
 output_path = 'C:\\Users\\Principal\\Documents\\JAVE\\PARCIAL\\archivo_salida.json'
 generate_report(output_path, letter_soup, words)
-"""
-
-import json
-
-
-def find_word(letter_soup, word):
-    word = word.lower()
-    for row in range(len(letter_soup)):
-        for col in range(len(letter_soup[row])):
-            if (search_in_direction(letter_soup, word, row, col, 0, 1) or  
-                search_in_direction(letter_soup, word, row, col, 1, 0) or  
-                search_in_direction(letter_soup, word, row, col, 1, 1) or  
-                search_in_direction(letter_soup, word, row, col, 1, -1) or 
-                search_in_direction(letter_soup, word, row, col, 0, -1) or 
-                search_in_direction(letter_soup, word, row, col, -1, 0) or 
-                search_in_direction(letter_soup, word, row, col, -1, -1) or
-                search_in_direction(letter_soup, word, row, col, -1, 1)): 
-                return True
-    return False
-
-def search_in_direction(letter_soup, word, row, col, row_dir, col_dir):
-    length = len(word)
-    if row + row_dir * (length - 1) < 0 or row + row_dir * (length - 1) >= len(letter_soup):
-        return False
-    if col + col_dir * (length - 1) < 0 or col + col_dir * (length - 1) >= len(letter_soup[0]):
-        return False
-
-    for i in range(length):
-        if letter_soup[row + i * row_dir][col + i * col_dir].lower() != word[i]:
-            return False
-    return True  
-
-def find_words(letter_soup, words):
-    result = {}
-    for word in words:
-        result[word] = find_word(letter_soup, word)
-    return result
-
-
-def generate_report(output_path, letter_soup, words):
-    result = find_words(letter_soup, words)
-    report = result
-    
-    with open(output_path, "w") as f:
-        json.dump(report, f, indent=4)
-
-
-def get_file_content(file_path):
-    with open(file_path, "r") as f:
-        content = f.read().splitlines()
-
-    letter_soup = []
-    words = [] 
-    reading_words = False
-
-    for line in content:
-        if line == '--':
-            reading_words = True
-            continue
-        if not reading_words:
-            letter_soup.append(line)
-        else:
-            words.append(line)
-    
-    return letter_soup, words
