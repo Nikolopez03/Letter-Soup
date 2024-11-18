@@ -1,10 +1,8 @@
 AMARS
-SEERI
-OZAZC
-ACCRH
-PLLOS
-FASDC
-PRSCF
+STERI
+OMAZC
+ALCRH
+POLOS
 --
 Amar
 Osa
@@ -13,5 +11,3 @@ solo
 polos
 Mezclar
 Palo
-polo
-lcaea
